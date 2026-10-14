@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSV 文件怎么批量合并并按订单号去重？3 步教程与在线示例</title>
+<meta name="description" content="CSV合并去重图文教程：检查表头、选定订单号去重、保留第一条记录并导出结果。提供可直接试用的本地浏览器演示，不需注册、不上传文件。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://xmlysly.github.io/csv-data-demo/guide-csv.html">
+<link rel="stylesheet" href="./style.css">
+<style>
+.article{max-width:900px;padding-top:54px;padding-bottom:80px}
+.article h1{font-size:clamp(28px,4vw,45px);line-height:1.3;letter-spacing:-1px}
+.article h2{font-size:26px;margin-top:42px}
+.article p,.article li{color:#425d68;line-height:1.9}
+.article p{margin:14px 0}
+.article pre{background:#163748;color:#eff8f8;border-radius:12px;padding:21px;line-height:1.75;overflow-x:auto;max-width:100%;font:14px/1.75 Consolas,monospace;white-space:pre}
+.article table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:18px 0}
+.article th,.article td{padding:12px 16px;border-bottom:1px solid #e0e9eb;text-align:left;white-space:nowrap}
+.article th{background:#ecf7f5}
+.article .note{padding:17px 20px;border-left:4px solid #168777;background:#ebf8f6;border-radius:7px}
+.article .topic{color:#1d726a;font-weight:750;letter-spacing:1px;font-size:12px}
+.article .links{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0}
+.article code{background:#eaf3f3;border-radius:4px;padding:2px 5px}
+.article pre code{background:transparent;padding:0;color:inherit}
+.article .panel p{margin:10px 0}
+.article a:not(.button){color:#137a70}
+.article footer{margin-top:40px}
+@media(max-width:600px){.article{padding-top:30px}.article pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="wrap top"><div class="brand">Data Workflow <span>Lab</span></div><a href="./index.html">返回作品首页</a></div></header>
+<main class="wrap article">
+<p class="topic">CSV 文件整理 / 实操教程</p>
+<h1>CSV 文件怎么批量合并，并按订单号去重？</h1>
+<p>订单、运营报表或设备测量数据经常分散在多个 CSV 文件里。直接复制粘贴不仅麻烦，还可能出现重复记录或表头错位。这篇教程用两份<strong>完全虚构</strong>的订单数据，说明如何正确合并、怎样选去重键，以及常见出错原因。</p>
+<div class="links">
+<a class="button" href="./demo.html">打开无需安装的 CSV 互动演示</a>
+<a class="button ghost" href="./index.html">查看其他处理能力</a>
+</div>
+
+<h2>第 1 步：先检查表头和字符编码</h2>
+<p>确认每份 CSV 的第一行是列名，例如「订单号」「金额」「来源」。如果不同文件含有不同列，合并时应按列名对齐，而不是把第 3 列不加检查地拼到一起。建议将文件统一为 UTF-8 编码。浏览器试玩页目前只支持 <strong>.csv</strong>，不直接解析 .xlsx 或旧版 .xls 文件。</p>
+<p>假设第一个文件 <code>A.csv</code> 内容如下：</p>
+<pre><code>订单号,金额,来源
+DEMO-001,100.00,渠道甲
+DEMO-002,120.00,渠道乙</code></pre>
+<p>第二个文件 <code>B.csv</code> 多了一列备注：</p>
+<pre><code>订单号,金额,备注
+DEMO-002,120.00,重复记录
+DEMO-003,88.00,模拟订单</code></pre>
+
+<h2>第 2 步：用唯一标识符精确去重</h2>
+<p>这里应选择「订单号」作为去重字段，而不是金额。因为不同订单可能恰好有相同金额。对比两个文件会发现 <code>DEMO-002</code> 出现两次。在这个演示里采用<strong>保留最先出现的一条记录</strong>的规则。</p>
+<table>
+<thead><tr><th>处理指标</th><th>数量</th><th>含义</th></tr></thead>
+<tbody><tr><td>原始记录</td><td>4</td><td>两个文件各 2 条</td></tr><tr><td>重复记录</td><td>1</td><td>订单号 DEMO-002 第二次出现</td></tr><tr><td>保留记录</td><td>3</td><td>DEMO-001、002、003</td></tr></tbody>
+</table>
+<p class="note">注意：如果真实业务以订单号加商品行号作为联合唯一键，或要求保留最新记录，就必须更换规则。按单一订单号去重可能误删合法订单明细，不能对所有业务照搬。</p>
+
+<h2>第 3 步：预览合并结果，再下载新文件</h2>
+<p>按列名补齐缺失的字段，两个文件的合并输出应该是：</p>
+<pre><code>订单号,金额,来源,备注
+DEMO-001,100.00,渠道甲,
+DEMO-002,120.00,渠道乙,
+DEMO-003,88.00,,模拟订单</code></pre>
+<p>打开下方互动演示，点击「运行模拟订单」，即可看到<strong>输入 4 行、保留 3 行、去重 1 行</strong>。也可以在浏览器中选择本人有权处理且已脱敏的 CSV，选择共同字段，查看处理结果并下载新的 CSV。</p>
+<div class="links"><a class="button" href="./demo.html">亲手试用 CSV 合并去重</a></div>
+
+<h2>常见问题与使用边界</h2>
+<div class="panel">
+<h3>为什么不能直接上传 Excel 的 .xlsx 文件？</h3>
+<p>.xlsx 是工作簿格式，与纯文本 CSV 不同。这里的浏览器示例只提供 CSV 文件解析。需要处理原生 Excel 时，应单独评估公式、工作表和格式保留等需求。</p>
+<h3>为什么有些行没有被去重？</h3>
+<p>演示采用精确键匹配，会去除去重字段首尾空格，但不进行模糊名称匹配。去重键为空的记录会保留，避免误删。</p>
+<h3>上传的文件会发送到服务器吗？</h3>
+<p>这份互动演示的 CSV 文件读取和合并逻辑在当前浏览器执行，没有上传业务文件的后端接口。不过仍建议先对实际客户信息脱敏，不要使用身份证、银行卡或商业机密测试。</p>
+<h3>CSV 打开后中文乱码怎么办？</h3>
+<p>先检查源文件是否为 UTF-8 编码，以及打开它的软件采用了哪种导入编码。使用 Excel 时优先通过“数据 → 从文本/CSV”导入并检查编码；不要因为乱码直接覆盖原文件。</p>
+</div>
+<p>此教程及示例均为原创技术演示，数据为虚构内容，不构成已完成客户商业订单的证明。若需要特定字段转换、去重规则或运行脚本，应先用脱敏样例确定完整范围与验收要求。</p>
+</main>
+<footer><div class="wrap">Data Workflow Lab · 免费 CSV 技术教程 · 2026</div></footer>
+</body></html>

@@ -2,6 +2,10 @@
 
 这是一个独立原创的静态演示站点，提供模拟 CSV 文件的合并、精确字段去重及结果导出。
 
+## 技术文档
+- [CSV 文件批量合并和按订单号去重（实操教程）](https://xmlysly.github.io/csv-data-demo/guide-csv.html)
+- [在线互动演示](https://xmlysly.github.io/csv-data-demo/demo.html)
+
 ## 使用方式
 - 打开 `index.html`，进入 `demo.html` 即可查看演示。
 - 点击“运行模拟订单”，示例为 4 条输入记录、3 条输出、1 条重复记录。
