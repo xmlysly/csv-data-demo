@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="免费试用 CSV 文件合并和按字段去重；无需登录、无需上传服务器，文件仅在本地浏览器处理。">
+<title>在线试用：CSV 合并去重 | 简表数据工坊</title>
+<style>
+:root{font-family:system-ui,"Microsoft YaHei",sans-serif;color:#163344;background:#f3f8fa;font-size:15px}
+*{box-sizing:border-box}body{margin:0}header{background:#14394f;color:#fff;padding:20px 0}.wrap{max-width:1120px;padding:0 24px;margin:auto}
+a{color:inherit}header a{text-decoration:none;font-weight:750}header span{font-size:12px;color:#c2dadf;float:right}
+.hero{padding:64px 0 38px}.eyebrow{letter-spacing:1.9px;color:#258478;font-weight:800;font-size:12px}
+h1{font-size:clamp(29px,5vw,48px);line-height:1.3;letter-spacing:-1px;margin:12px 0}h2{margin:5px 0 15px;font-size:25px}
+p{color:#546e7b;line-height:1.8}.pill{display:inline-block;padding:5px 12px;background:#e6f4ef;color:#17695c;border-radius:100px;font-size:12px;margin:5px 9px 5px 0}
+.panel{background:#fff;border:1px solid #dce8ec;border-radius:18px;padding:28px;margin-bottom:20px;box-shadow:0 8px 20px rgba(19,56,72,.035)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+button,.cta{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:0;border-radius:10px;padding:12px 22px;cursor:pointer;background:#116f65;color:white;font:700 15px system-ui,"Microsoft YaHei",sans-serif;text-decoration:none}
+button.secondary{background:#e8f2f1;color:#18564e}button:focus-visible,.cta:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #73c8bb;outline-offset:2px}
+button:disabled{background:#ced7da;cursor:not-allowed}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+input,select{font:inherit;background:white;padding:11px 12px;border:1px solid #c3d4da;border-radius:10px;min-width:0;max-width:100%}
+input[type=file]{padding:12px;width:100%}label{display:block;font-weight:650;margin-bottom:8px}
+small,.footnote{font-size:12px;color:#69818a}.mono{font-family:Consolas,monospace;color:#345b65;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;background:white;font-size:13px;min-width:500px}
+th,td{border-bottom:1px solid #e3eded;text-align:left;padding:12px 13px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:250px}
+th{background:#eaf5f1;color:#1c6259}.scroll{overflow:auto;border:1px solid #e1ebed;border-radius:12px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.metric{background:#eaf5f1;border-radius:12px;padding:16px 18px}.metric strong{font-size:30px;display:block;color:#155f55}
+#status{min-height:40px;font-size:14px;color:#116f65;margin:14px 0}#status.error{color:#ad364b}
+footer{padding:24px 0 46px;color:#69818a;font-size:13px}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.panel{padding:21px}.hero{padding:35px 0 22px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a href="./index.html">简表数据工坊 · CSV 合并去重演示</a><span>独立原创 · 无需登录</span></div></header>
+<main class="wrap">
+<section class="hero"><span class="eyebrow">LIVE / LOCAL DEMO</span><h1>亲手试一试 CSV 合并与去重</h1>
+<p>不用安装软件、不需要注册账号。两份示例订单放在浏览器中直接合并，按订单号去重，再导出 CSV。你也可以选择自己有权处理的脱敏 CSV 文件。</p>
+<span class="pill">仅在浏览器本地处理</span><span class="pill">最多 3 份文件 / 10,000 行</span><span class="pill">输出 CSV</span><span class="pill">不支持原生 XLSX</span>
+</section>
+<section class="panel">
+<h2>1. 选择输入</h2>
+<div class="grid"><div><label for="files">上传脱敏 CSV（可选）</label><input id="files" type="file" accept=".csv,text/csv" multiple><p class="footnote">只在当前浏览器处理，不会发送到服务器。每个文件最多 1MB，最多 3 个文件。不要选择含真实身份证、银行卡、客户名单的数据。</p></div>
+<div><label for="dedupeKey">去重字段</label><select id="dedupeKey"><option value="订单号">订单号</option></select><p>两个样本包含重复的 <span class="mono">DEMO-002</span>。如果上传自己的文件，会自动列出共同字段供选择。</p></div></div>
+<div class="btn-row"><button id="runSample">运行模拟订单</button><button class="secondary" id="runFiles">处理所选 CSV</button><button class="secondary" id="download" disabled>下载结果 CSV</button></div>
+<div role="status" aria-live="polite" id="status">点击“运行模拟订单”查看真实的处理效果。</div>
+</section>
+<section class="panel">
+<h2>2. 查看数据处理结果</h2>
+<div class="metrics"><div class="metric"><strong id="inputCount">—</strong><span>输入行数</span></div><div class="metric"><strong id="outputCount">—</strong><span>保留行数</span></div><div class="metric"><strong id="dropCount">—</strong><span>去重行数</span></div></div>
+<div class="scroll"><table><thead id="outputHead"><tr><th>订单号</th><th>金额</th><th>说明</th></tr></thead><tbody id="outputBody"><tr><td colspan="3">等待运行示例</td></tr></tbody></table></div>
+<p class="footnote">浏览器演示与 Python 服务使用相同的合并、字段去重思路，但并非完全相同的运行环境。客户定制仍需先确认文件结构和验收规则。</p>
+</section>
+<section class="panel">
+<h2>3. 实现说明和使用边界</h2>
+<p>这是一个原创的浏览器端 CSV/TSV 数据处理思路演示。算法按指定共同字段合并、精确去重，保留第一条同键记录，不对原始文件执行修改。它不是完整的电子表格产品，也不包含原生 XLSX 解析、ERP 对接或云端数据采集。</p>
+<p>所有示例订单均为虚构数据。浏览器演示中的上传与结果计算在本地运行，不使用第三方分析脚本或后台账户服务。</p>
+<p class="footnote">与这个原创项目相关的 <a href="https://shop.epwk.com/7lngq4mewdmr/chushou/idea_203482.html" rel="noopener noreferrer" target="_blank">数据处理技术服务说明</a> 位于独立交易平台，本演示站点本身不提供下单或支付功能。</p>
+</section>
+</main>
+<footer class="wrap">简表数据工坊 · 原创合成数据演示 · 非客户付费案例 · 不索取登录凭证</footer>
+<script src="./csv-demo-core.js"></script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const samples=[
+ {name:"A.csv",text:"订单号,金额,来源\r\nDEMO-001,100.00,渠道甲\r\nDEMO-002,120.00,渠道乙\r\n"},
+ {name:"B.csv",text:"订单号,金额,备注\r\nDEMO-002,120.00,重复记录\r\nDEMO-003,88.00,模拟订单\r\n"}
+];
+let result=null,loaded=[];
+function setStatus(text,error=false){$("status").textContent=text;$("status").className=error?"error":""}
+function appendCells(row,values,tag){for(let v of values){const cell=document.createElement(tag);cell.textContent=v;row.appendChild(cell)}}
+function render(x){
+  result=x;$("inputCount").textContent=x.inputRows;$("outputCount").textContent=x.outputRows;$("dropCount").textContent=x.deduplicatedRows;
+  const h=$("outputHead"),b=$("outputBody");h.replaceChildren();b.replaceChildren();
+  const tr=document.createElement("tr");appendCells(tr,x.headers,"th");h.appendChild(tr);
+  for(const data of x.rows.slice(0,25)){const tr=document.createElement("tr");appendCells(tr,data,"td");b.appendChild(tr)}
+  if(x.rows.length>25){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=x.headers.length;td.textContent="只预览前 25 行，下载包含全部处理结果。";tr.appendChild(td);b.appendChild(tr)}
+  $("download").disabled=false;
+}
+function commonHeaders(files){
+  try{const all=files.map(f=>CsvDemo.parseCSV(f.text).headers);return all[0].filter(h=>all.every(cols=>cols.includes(h)))}catch(e){setStatus(e.message,true);return []}
+}
+function refreshKey(files){
+  const possible=commonHeaders(files);const select=$("dedupeKey");select.replaceChildren();
+  for(const head of possible){const o=document.createElement("option");o.value=head;o.textContent=head;select.append(o)}
+  if(possible.includes("订单号")) select.value="订单号";
+  if(!possible.length)setStatus("文件之间没有共同列，不能执行按字段去重。",true);
+}
+function run(files){
+  try{refreshKey(files);const x=CsvDemo.mergeCSV(files,$("dedupeKey").value);render(x);setStatus("完成！处理了 "+x.inputRows+" 行，合并后保留 "+x.outputRows+" 行，去掉 "+x.deduplicatedRows+" 条重复。")}
+  catch(e){result=null;$("download").disabled=true;setStatus("无法处理："+e.message,true)}
+}
+$("runSample").addEventListener("click",()=>{loaded=[];$("files").value="";run(samples)});
+$("files").addEventListener("change",async()=>{
+ const selected=Array.from($("files").files||[]); loaded=[];result=null;$("download").disabled=true;
+ if(!selected.length){setStatus("请选择 CSV 文件或使用示例。");return}
+ if(selected.length>3){setStatus("最多上传 3 份 CSV。",true);return}
+ try{
+  for(const file of selected){
+   if(!/\.csv$/i.test(file.name)||file.size>1048576)throw new Error("仅支持单份不超过 1MB 的 .csv 文件");
+   const text=await file.text();loaded.push({name:file.name,text});
+  }
+  refreshKey(loaded);setStatus("已在本地载入 "+loaded.length+" 个文件，选择去重字段后点击“处理所选 CSV”。");
+ }catch(e){loaded=[];setStatus(e.message,true)}
+});
+$("runFiles").addEventListener("click",()=>{
+ if(!loaded.length){setStatus("请先选择 CSV 文件，或者点击运行模拟订单。",true);return}
+ try{const x=CsvDemo.mergeCSV(loaded,$("dedupeKey").value);render(x);setStatus("成功处理 "+x.inputRows+" 行，去重 "+x.deduplicatedRows+" 行；数据未离开浏览器。")}
+ catch(e){result=null;$("download").disabled=true;setStatus("无法处理："+e.message,true)}
+});
+$("download").addEventListener("click",()=>{
+ if(!result)return;
+ const csv=CsvDemo.toCSV(result.headers,result.rows);
+ const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+ const a=document.createElement("a");a.href=url;a.download="csv_merged_deduplicated.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+});
+})();
+</script>
+</body>
+</html>

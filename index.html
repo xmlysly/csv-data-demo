@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSV 数据自动化｜离线合并、去重和清洗服务演示</title>
+<meta name="description" content="原创 Python 数据处理小工具和可复用自动化服务案例。用两份合成 CSV 演示合并、按订单号去重和安全导出。">
+<link rel="stylesheet" href="./style.css"></head><body>
+<header><div class="wrap top"><div class="brand">Data Workflow <span>Lab</span></div><div class="badge">独立原创作品 · 无需登录 · 示例数据</div></div></header>
+<main class="wrap">
+<section class="hero"><span class="eyebrow">PYTHON / CSV / BATCH AUTOMATION</span>
+<h1>让重复的表格处理<br><em>变成可复用流程。</em></h1>
+<p>这是一套真实可运行的离线 Python 数据处理样品，演示批量合并 CSV / TSV、按指定列精确去重、格式检查和 Excel 友好的 CSV 导出。</p>
+<div class="actions"><a class="button" href="./demo.html">打开 CSV 合并去重互动演示</a><a class="button ghost" href="#demonstration">查看模拟输入输出</a><a class="button ghost" href="#packages">了解支持的功能</a></div>
+</section>
+<section id="demonstration" class="section"><div class="section-head"><div><span class="eyebrow">01 / DEMONSTRATION</span><h2>样例输入与输出</h2></div><p>所有订单均为合成数据，不包含真实客户信息。</p></div>
+<div class="three">
+<article class="panel"><h3>第一批 · CSV</h3><div class="mono">DEMO-001 · ¥100.00<br>DEMO-002 · ¥120.00</div><p>2 条订单，含用户代号、日期等字段。</p></article>
+<article class="panel"><h3>第二批 · CSV</h3><div class="mono">DEMO-002 · ¥120.00<br>DEMO-003 · ¥88.00</div><p>2 条订单，含备注字段，与第一批结构不同。</p></article>
+<article class="panel result"><h3>合并后结果</h3><div class="mono">DEMO-001 · ¥100.00<br>DEMO-002 · ¥120.00<br>DEMO-003 · ¥88.00</div><p>合并 4 条 → 保留 3 条，去掉 1 条重复订单号。</p></article>
+</div>
+<div class="metrics"><div><strong>2</strong><span>输入文件</span></div><div><strong>4</strong><span>原始记录</span></div><div><strong>3</strong><span>合并记录</span></div><div><strong>11/11</strong><span>自动测试通过</span></div></div>
+</section>
+<section class="section" id="packages"><div class="section-head"><div><span class="eyebrow">02 / SCOPE</span><h2>已实现的处理能力</h2></div><p>下面均为公开演示的技术范围，不包含未知格式自动识别。</p></div>
+<div class="three">
+<article class="panel"><span class="tag">数据校验</span><h3>CSV 字段检查</h3><p>检查表头重复、字段数量不一致等格式错误。</p><small>异常输入明确报错，不静默覆盖源文件</small></article>
+<article class="panel"><span class="tag">数据整理</span><h3>文件合并与去重</h3><p>合并具有部分不同表头的 CSV，按共同字段精确去重。</p><small>浏览器试用最多3份文件，合计10,000行</small></article>
+<article class="panel"><span class="tag">本地运行</span><h3>查看与导出结果</h3><p>在浏览器中显示处理统计、预览结果并导出 CSV。</p><small>当前演示不包含原生 XLSX 或数据库接入</small></article>
+</div>
+</section>
+<section class="section limitations"><span class="eyebrow">03 / LIMITS & PRIVACY</span><h2>能力边界与数据安全</h2>
+<p>本演示只处理本地 CSV/TSV，不需要账号密码，不采集用户资料，也不访问远程服务器。复杂 XLSX、含宏 Excel、扫描版 PDF、ERP 接口及特殊财务核算需要重新评估，不能默认已支持。</p>
+<p>请不要把真实身份证、手机号、银行卡、客户地址或商业机密上传给陌生人。先提供脱敏样例及预期结果，确认数据处理授权、交付文件与验收条件后再合作。</p>
+</section>
+</main><footer><div class="wrap">Data Workflow Lab · 独立 Python/CSV 自动化演示 · 实际产品示例，非虚构交易记录 · 2026</div></footer>
+</body></html>
